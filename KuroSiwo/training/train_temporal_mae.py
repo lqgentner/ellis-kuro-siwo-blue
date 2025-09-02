@@ -181,9 +181,15 @@ def train(configs):
         mlp_dim=configs["mlp_dim"],
     )
 
+    # Handle both single masking ratio and per-timepoint masking ratios
+    masking_ratio = configs.get("masked_ratio", 0.75)
+    if "masked_ratios" in configs:
+        # Use per-timepoint masking ratios if specified
+        masking_ratio = configs["masked_ratios"]
+    
     model = temporal_mae_model.TemporalMAE(
         encoder=v,
-        masking_ratio=configs["masked_ratio"],  # the paper recommended 75% masked patches
+        masking_ratio=masking_ratio,  # Can be single value or list of values per timepoint
         decoder_dim=configs["decoder_dim"],  # paper showed good results with just 512
         decoder_depth=configs["decoder_depth"],  # anywhere from 1 to 8
         decoder_heads=configs["decoder_heads"],  # attention heads for decoder
