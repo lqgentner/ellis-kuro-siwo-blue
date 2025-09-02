@@ -1,0 +1,34 @@
+[project]
+name = "ellis-kuro-siwo-blue"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "albumentations",
+    "ciso8601",
+    "compress-pickle",
+    "denoising-diffusion-pytorch",
+    "einops",
+    "geopandas",
+    "ipykernel",
+    "ipywidgets",
+    "jupyter",
+    "kornia",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "pyjson5",
+    "richdem>=0.3.4",
+    "rioxarray",
+    "segmentation-models-pytorch",
+    "setuptools",
+    "torch",
+    "torchio>=0.20.21",
+    "torchmetrics",
+    "torchvision",
+    "tqdm",
+    "transformers",
+    "vit-pytorch",
+    "wandb",
+]
