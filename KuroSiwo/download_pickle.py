@@ -12,6 +12,8 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from utilities.utilities import PROJ_ROOT
+
 
 def download_file(url: str, filepath: Path, chunk_size: int = 8192) -> bool:
     """
@@ -84,7 +86,7 @@ def unzip_file(gz_filepath: Path, extract_to: Path = None) -> bool:
 
 def main():
     # Configuration - download to repo root/pickle folder
-    download_dir = Path("pickle")
+    download_dir = PROJ_ROOT / "KuroSiwo/pickle"
 
     # File URLs and names
     files_to_download = [
