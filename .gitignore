@@ -1,5 +1,7 @@
-Ignore pickle
-./KuroSiwo/pickle/
+# Ignore pickle
+*.pkl
+# Ignore GZ
+*.gz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
