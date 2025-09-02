@@ -11,7 +11,7 @@ from torchvision.transforms import Normalize
 
 from .bce_and_dice import BCEandDiceLoss
 
-PROJ_ROOT = Path(__file__).resolve().parents[2] / "KuroSiwo"
+PROJ_ROOT = Path(__file__).resolve().parents[2]
 
 
 def create_checkpoint_directory(configs, model_configs):
