@@ -1,15 +1,17 @@
-import pyjson5 as json
 from datetime import datetime
 from pathlib import Path
 
+import dataset.Dataset as Dataset
+import pyjson5 as json
 import segmentation_models_pytorch as smp
 import torch
 import torch.nn as nn
 from torchmetrics import Accuracy, F1Score, JaccardIndex, Precision, Recall
 from torchvision.transforms import Normalize
 
-import dataset.Dataset as Dataset
 from .bce_and_dice import BCEandDiceLoss
+
+PROJ_ROOT = Path(__file__).resolve().parents[2] / "KuroSiwo"
 
 
 def create_checkpoint_directory(configs, model_configs):
@@ -62,7 +64,7 @@ def create_checkpoint_directory(configs, model_configs):
     elif configs["task"] == "cd":
         run_ts = datetime.now().strftime("%Y%m%d%H%M%S")
         checkpoint_path = (
-            "checkpoints/" + configs["method"].lower() + f'/{configs["track"]}_{run_ts}'
+            "checkpoints/" + configs["method"].lower() + f"/{configs['track']}_{run_ts}"
         )
     elif configs["task"] == "finetune":
         checkpoint_path = "checkpoints/finetuning"
@@ -339,12 +341,14 @@ def create_loss(configs, mode="val"):
             reduction="mean",
             force_reload=False,
         ).to(configs["device"])
-    elif configs['loss_function'] == 'ce+dice':
-        if 'class_weights' in configs.keys():
-            class_weights = torch.tensor(configs['class_weights'])
+    elif configs["loss_function"] == "ce+dice":
+        if "class_weights" in configs.keys():
+            class_weights = torch.tensor(configs["class_weights"])
         else:
             class_weights = torch.tensor([1.0, 1.0, 1.0])
-        return BCEandDiceLoss(weights=class_weights, ignore_index=3, use_softmax=True).to(configs['device'])
+        return BCEandDiceLoss(
+            weights=class_weights, ignore_index=3, use_softmax=True
+        ).to(configs["device"])
 
 
 def update_config(config, args=None):
@@ -374,20 +378,20 @@ def update_config(config, args=None):
         config.update(augmentation_config)
 
     # Compute total number of input channels
-    if (config['task'] == 'cd') or (config['method'] == 'convlstm'):
-        config['num_channels'] = len(config['channels'])
-        if config['dem']:
-            config['num_channels'] += 1
+    if (config["task"] == "cd") or (config["method"] == "convlstm"):
+        config["num_channels"] = len(config["channels"])
+        if config["dem"]:
+            config["num_channels"] += 1
     else:
-        config['num_channels'] = len(config['channels']) * len(config['inputs'])
-        if config['dem']:
-            config['num_channels'] += 1
+        config["num_channels"] = len(config["channels"]) * len(config["inputs"])
+        if config["dem"]:
+            config["num_channels"] += 1
 
     if "slc" in config and config["slc"]:
-        if config['dem']:
+        if config["dem"]:
             config["num_channels"] = ((config["num_channels"] - 1) * 2) + 1
         else:
-            config["num_channels"] = config["num_channels"]*2
+            config["num_channels"] = config["num_channels"] * 2
 
     if config["weighted"] and config["track"] == "RandomEvents":
         config["class_weights"] = [
@@ -400,7 +404,7 @@ def update_config(config, args=None):
 
     # Get device
     if config["gpu"] is not None:
-        device = f'cuda:{config["gpu"]}'
+        device = f"cuda:{config['gpu']}"
     else:
         device = "cpu"
     config["device"] = device
@@ -412,10 +416,10 @@ def update_config(config, args=None):
     return config
 
 
-def define_tracks(configs):        
-    train_acts = configs['train_acts']
-    val_acts = configs['val_acts']
-    test_acts = configs['test_acts']
+def define_tracks(configs):
+    train_acts = configs["train_acts"]
+    val_acts = configs["val_acts"]
+    test_acts = configs["test_acts"]
     print("train activations ", len(train_acts))
     print("val activations ", len(val_acts))
     print("test activations ", len(test_acts))
