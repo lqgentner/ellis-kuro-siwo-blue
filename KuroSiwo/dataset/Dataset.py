@@ -26,7 +26,6 @@ from utilities import augmentations
 def get_grids(pickle_path):
     if not os.path.isfile(pickle_path):
         print("Pickle file not found! ", pickle_path)
-        exit(2)
     with open(pickle_path, "rb") as file:
         grid_dict = load(file)
     return grid_dict
@@ -742,7 +741,6 @@ class Dataset(torch.utils.data.Dataset):
                         print(
                             "To return the slope the DEM option must be enabled. Validate the config file!"
                         )
-                        exit(2)
 
                     # Get slope before normalization
                     if self.configs["slope"]:
@@ -1192,7 +1190,7 @@ class SLCDataset(torch.utils.data.Dataset):
                     print(e)
                     print(sample['path'])
                     print(flood.shape,sec1.shape,sec2.shape,mask.shape,flush=True)
-                    exit(2)
+
 
                 flood = transform["image"]
 
