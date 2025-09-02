@@ -1,5 +1,5 @@
 # Ignore pickle
-*0_100.pkl
+*.pkl
 # Ignore GZ
 *.gz
 
