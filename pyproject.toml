@@ -23,7 +23,7 @@ dependencies = [
     "rioxarray",
     "segmentation-models-pytorch",
     "setuptools",
-    "torch",
+    "torch<2.0.0",
     "torchio>=0.20.21",
     "torchmetrics",
     "torchvision",
