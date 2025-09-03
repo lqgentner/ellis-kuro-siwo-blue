@@ -45,17 +45,17 @@ random.seed(args.seed)
 torch.manual_seed(args.seed)
 
 if __name__ == "__main__":
-    configs = json.load(open("configs/config.json", "r"))
+    configs = json.load(open(PROJ_ROOT / "KuroSiwo/configs/config.json", "r"))
     if args.method is not None:
         configs["method"] = args.method
     if configs["method"] == "convlstm":
-        model_configs = json.load(open("configs/method/temporal/convlstm.json", "r"))
+        model_configs = json.load(open(PROJ_ROOT / "KuroSiwo/configs/method/temporal/convlstm.json", "r"))
     elif configs["method"] == "vivit":
-        model_configs = json.load(open("configs/method/temporal/vivit.json", "r"))
+        model_configs = json.load(open(PROJ_ROOT / "KuroSiwo/configs/method/temporal/vivit.json", "r"))
     else:
         model_configs = json.load(
             open(
-                f'configs/method/{configs["method"].lower()}/{configs["method"].lower().replace("-", "_")}.json'
+                PROJ_ROOT / f'KuroSiwo/configs/method/{configs["method"].lower()}/{configs["method"].lower().replace("-", "_")}.json'
             )
         )
         if args.backbone is not None:

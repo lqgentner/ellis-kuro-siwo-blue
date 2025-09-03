@@ -353,7 +353,7 @@ def create_loss(configs, mode="val"):
 
 def update_config(config, args=None):
     # Load data related configs
-    data_config_path = "configs/train/data_config.json"
+    data_config_path = PROJ_ROOT / "KuroSiwo/configs/train/data_config.json"
     data_config = json.load(open(data_config_path, "r"))
     config.update(data_config)
 
@@ -366,14 +366,14 @@ def update_config(config, args=None):
                 config["slope"] = args.slope
 
     # Load train related configs
-    train_config_path = "configs/train/train_config.json"
+    train_config_path = PROJ_ROOT / "KuroSiwo/configs/train/train_config.json"
     train_config = json.load(open(train_config_path, "r"))
     config.update(train_config)
 
     if config["task"] == "self-supervised" or config["data_augmentations"]:
         # Load augmentation settings
         augmentation_config = json.load(
-            open("configs/augmentations/augmentation.json", "r")
+            open(PROJ_ROOT / "KuroSiwo/configs/augmentations/augmentation.json", "r")
         )
         config.update(augmentation_config)
 
